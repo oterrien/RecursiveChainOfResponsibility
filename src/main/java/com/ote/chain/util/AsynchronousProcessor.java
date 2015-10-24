@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class AsynchronousProcessor<TQ> extends Processor<TQ> implements IProcessor<TQ> {
 
-    private IProcessor<TQ> processor;
+    private Processor<TQ> processor;
 
     public AsynchronousProcessor(Processor<TQ> processor) {
         this.processor = processor;

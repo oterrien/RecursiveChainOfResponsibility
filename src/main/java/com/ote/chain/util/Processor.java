@@ -15,7 +15,7 @@ public class Processor<TQ> implements IProcessor<TQ> {
         this.handlers.addAll(Arrays.asList(handlers));
     }
 
-    public Processor add(IHandler<TQ> handler){
+    public Processor<TQ> add(IHandler<TQ> handler){
         handlers.add(handler);
         return this;
     }

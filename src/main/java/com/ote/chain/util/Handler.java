@@ -7,14 +7,6 @@ public abstract class Handler<TQ, TP extends Handler.Context<TQ>> implements IHa
 
     private TP context;
 
-    public TP getContext() {
-        return context;
-    }
-
-    public void setContext(TP context) {
-        this.context = context;
-    }
-
     @Override
     public void setUp(TQ query) {
         context = createContext();
@@ -25,10 +17,10 @@ public abstract class Handler<TQ, TP extends Handler.Context<TQ>> implements IHa
 
     @Override
     public boolean isAccepted() {
-        return accept(context);
+        return isAccepted(context);
     }
 
-    protected abstract boolean accept(TP context);
+    protected abstract boolean isAccepted(TP context);
 
     @Override
     public void handle() {
@@ -47,8 +39,11 @@ public abstract class Handler<TQ, TP extends Handler.Context<TQ>> implements IHa
 
         private TQ query;
 
-        public Context(){
+        public Context() {
+        }
 
+        public Context(TQ query){
+            setQuery(query);
         }
 
         public TQ getQuery() {

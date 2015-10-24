@@ -20,23 +20,18 @@ public class AsynchronousProcessor<TQ> extends Processor<TQ> implements IProcess
     }
 
     @Override
-    protected List<IHandler<TQ>> getHandlers() {
-        return processor.getHandlers();
-    }
-
-    @Override
-    public void process(final TQ query) {
+    public void process(TQ query) {
 
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
         try {
 
-            List<Callable<Boolean>> tasks = getHandlers().stream().
-                    map(p -> createTask(p, query)).
+            List<Callable<Boolean>> tasks = processor.handlers.stream().
+                    map((p) -> createTask(p, query)).
                     collect(Collectors.toList());
 
-            List<Future<Boolean>> taskResults = new ArrayList<>(getHandlers().size());
-            tasks.forEach(p -> {
+            List<Future<Boolean>> taskResults = new ArrayList<>(processor.handlers.size());
+            tasks.forEach((p) -> {
                 try {
                     taskResults.add(executorService.submit(p));
                 } catch (Exception e) {
@@ -44,7 +39,7 @@ public class AsynchronousProcessor<TQ> extends Processor<TQ> implements IProcess
                 }
             });
 
-            taskResults.forEach(f -> {
+            taskResults.forEach((f) -> {
                 try {
                     f.get();
                 } catch (Exception e) {
@@ -57,7 +52,13 @@ public class AsynchronousProcessor<TQ> extends Processor<TQ> implements IProcess
         }
     }
 
-    private Callable<Boolean> createTask(final IHandler<TQ> handler, final TQ query) {
+    /**
+     * Encapsulate the processor.handle method into a Callable which returns true once terminated
+     * @param handler
+     * @param query
+     * @return
+     */
+    private Callable<Boolean> createTask(IHandler<TQ> handler, TQ query) {
 
         return () -> {
             processor.handle(handler, query);

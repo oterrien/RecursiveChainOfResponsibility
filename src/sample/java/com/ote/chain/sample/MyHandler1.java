@@ -13,7 +13,7 @@ public class MyHandler1 extends Handler<Query, MyHandler1.Context> {
     }
 
     @Override
-    protected boolean accept(Context context) {
+    protected boolean isAccepted(Context context) {
         return true;
     }
 

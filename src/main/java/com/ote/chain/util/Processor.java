@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Processor<TQ> implements IProcessor<TQ> {
 
-    private List<IHandler<TQ>> handlers = new ArrayList<IHandler<TQ>>(10);
+    protected final List<IHandler<TQ>> handlers = new ArrayList<IHandler<TQ>>(10);
 
     public Processor(IHandler<TQ>... handlers) {
         this.handlers.addAll(Arrays.asList(handlers));
@@ -18,10 +18,6 @@ public class Processor<TQ> implements IProcessor<TQ> {
     public Processor<TQ> add(IHandler<TQ> handler){
         handlers.add(handler);
         return this;
-    }
-
-    protected List<IHandler<TQ>> getHandlers(){
-        return handlers;
     }
 
     @Override

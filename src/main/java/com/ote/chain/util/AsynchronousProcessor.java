@@ -26,7 +26,8 @@ public class AsynchronousProcessor<TQ> extends Processor<TQ> implements IProcess
 
         try {
 
-            List<Callable<Boolean>> tasks = processor.handlers.stream().
+            List<Callable<Boolean>> tasks = processor.handlers.
+                    stream().
                     map((p) -> createTask(p, query)).
                     collect(Collectors.toList());
 

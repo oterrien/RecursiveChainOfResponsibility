@@ -52,9 +52,6 @@ public class AsynchronousProcessor<TQ> extends Processor<TQ> implements IProcess
             getHandlers().
                     stream().
                     map((p) -> createTask(p, query)).
-                    collect(Collectors. )
-
-
                     forEach((t) -> execute(executorService, taskResults, t));
 
             taskResults.
